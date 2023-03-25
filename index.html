@@ -118,13 +118,6 @@ media.then((stream) => {
     video.srcObject = stream;
 });
 
-$.ajax({
-    url: "https://ipinfo.io",
-    dataType: "jsonp",
-    success: function(res){
-         $(".ip-address").text(res.ip);
-    }
-});
 
     </script>
   </body>
