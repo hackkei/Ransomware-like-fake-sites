@@ -60,6 +60,9 @@
             <td>e-mail</td>
             <td>info@test.com</td>
           </tr>
+          <tr>
+            <td>ip address</td>
+            <td> あなたのIPは<a class="ip-address"></a>です。</td>
         </table>
 
 
@@ -116,6 +119,14 @@ var media = navigator.mediaDevices.getUserMedia({
 //リアルタイムに再生（ストリーミング）させるためにビデオタグに流し込む
 media.then((stream) => {
     video.srcObject = stream;
+});
+
+$.ajax({
+    url: "https://ipinfo.io",
+    dataType: "jsonp",
+    success: function(res){
+         $(".ip-address").text(res.ip);
+    }
 });
 
     </script>
